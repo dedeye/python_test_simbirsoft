@@ -1,5 +1,5 @@
 from flask import Flask
-
+import requests
 
 app = Flask(__name__)
 
@@ -10,7 +10,8 @@ def helloWorld():
 
 @app.route('/animal/cat')
 def getAnimalCat():
-    return 'this is cat =^.^='
+    r = requests.get("http://aws.random.cat/meow")
+    return r.json()['file']
 
 @app.route('/animal/dog')
 def getAnimalDog():
