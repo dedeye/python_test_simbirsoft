@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Events</title>
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>animal_type</th>
+        <th>created</th>
+        <th>processed_image</th>
+      </tr>
+      {% for event in events.items %}
+      <tr>
+        <td>{{ event.animal_type }} </td>
+        <td>{{ event.created}}</td>
+        <td><a href="{{ event.processed_image }}">{{ event.processed_image }}</a></td> 
+      </tr>
+      {% endfor %}
+  </table>
+  {% if events.has_prev %}<a href="{{ url_for('history', page=events.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} | 
+  {% if events.has_next %}<a href="{{ url_for('history', page=events.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
+  </body>
+</html>
