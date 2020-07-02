@@ -39,12 +39,15 @@ def record(state):
 def history_page():
 
     page = request.args.get('page', default=1, type=int)
-
     output = request.args.get('output', default='html', type=str)
 
-    db = current_app.config["history.db"]
+    try:
+        db = current_app.config["history.db"]
 
-    events = db.get_events(page)
+        events = db.get_events(page)
+    
+    except Exception:
+        abort(500)
 
     if(output == 'html'):
         return render_template('history_template.html', events=events)
@@ -61,5 +64,9 @@ def history_by_uuid(uuid):
     filename = get_filename_from_uuid(uuid)
     try:
         return send_file(filename)
-    except (FileNotFoundError):
+    
+    except FileNotFoundError:
         abort(404)
+    
+    except Exception:
+        abort(500)

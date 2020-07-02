@@ -11,6 +11,7 @@ from animals.animal_fox import animal_fox
 app = Flask(__name__)
 
 
+# read config
 config = configparser.ConfigParser()
 config.read('config.txt')
 
@@ -18,10 +19,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = config['main'].get('db_file')
 app.config['APP_REQUESTS_TIMEOUT'] = config['main'].getint('requests_timeout')
 app.config['IMG_FOLDER'] = Path(config['main'].get('img_folder')).resolve()
 
+
+# setup db
 db = SQLAlchemy(app)
 
 
-# setup db
 def setup_history_db(db):
     class Event(db.Model):
         id = db.Column(db.Integer, primary_key=True)

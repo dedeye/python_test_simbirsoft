@@ -2,7 +2,7 @@ from PIL import Image, ImageFilter
 from io import BytesIO
 
 
-def get_image(raw):
+def convert_image(raw):
     image = Image.open(BytesIO(raw)).convert('RGB')
     (w, h) = (1024, round(image.height * (1024/image.width)))
     image = image.resize((w, h))
@@ -15,4 +15,4 @@ def filter_image(image):
 
 
 def image_process(raw):
-    return filter_image(get_image(raw))
+    return filter_image(convert_image(raw))
