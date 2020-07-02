@@ -1,15 +1,22 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+import datetime
+from pathlib import Path
+import configparser
 from animals.history import history
 from animals.animal_cat import animal_cat
 from animals.animal_dog import animal_dog
 from animals.animal_fox import animal_fox
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import datetime
-
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+
+config = configparser.ConfigParser()
+config.read('config.txt')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = config['main'].get('db_file')
+app.config['APP_REQUESTS_TIMEOUT'] = config['main'].getint('requests_timeout')
+app.config['IMG_FOLDER'] = Path(config['main'].get('img_folder')).resolve()
 
 db = SQLAlchemy(app)
 

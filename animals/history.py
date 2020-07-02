@@ -1,8 +1,8 @@
 from flask import request, render_template, jsonify, send_file, \
     abort, url_for, Blueprint, current_app
 
-# from animals.history_model import get_events
-# from animals import db
+from animals.common import get_filename_from_uuid
+
 
 history = Blueprint('history', __name__)
 
@@ -47,7 +47,7 @@ def history_page():
     events = db.get_events(page)
 
     if(output == 'html'):
-        return render_template('template.html', events=events)
+        return render_template('history_template.html', events=events)
 
     elif(output == 'json'):
         return create_json(events)
@@ -58,9 +58,7 @@ def history_page():
 
 @history.route('/history/static/<uuid>')
 def history_by_uuid(uuid):
-    filename = "img/" + uuid + ".png"
-
-    return filename
+    filename = get_filename_from_uuid(uuid)
     try:
         return send_file(filename)
     except (FileNotFoundError):

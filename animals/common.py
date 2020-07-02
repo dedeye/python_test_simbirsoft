@@ -7,4 +7,4 @@ def get_uuid():
 
 
 def get_filename_from_uuid(uuid):
-    return current_app.instance_path + "/img/" + uuid + ".png"
+    return str(current_app.config["IMG_FOLDER"]) + "/" + uuid + ".png"
