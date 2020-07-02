@@ -2,3 +2,4 @@
 requests_timeout    =   2
 img_folder          =   img/
 db_file             =   sqlite:////tmp/test.db
+logging             =   true

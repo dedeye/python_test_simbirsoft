@@ -45,8 +45,9 @@ def history_page():
         db = current_app.config["history.db"]
 
         events = db.get_events(page)
-    
-    except Exception:
+
+    except Exception as e:
+        current_app.logger.error('can not get events: {}'.format(e))
         abort(500)
 
     if(output == 'html'):
@@ -64,9 +65,10 @@ def history_by_uuid(uuid):
     filename = get_filename_from_uuid(uuid)
     try:
         return send_file(filename)
-    
+
     except FileNotFoundError:
         abort(404)
-    
-    except Exception:
+
+    except Exception as e:
+        current_app.logger.error('can not seve /history/static/: {}'.format(e))
         abort(500)

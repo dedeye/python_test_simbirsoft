@@ -7,6 +7,8 @@ from animals.history import history
 from animals.animal_cat import animal_cat
 from animals.animal_dog import animal_dog
 from animals.animal_fox import animal_fox
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__)
 
@@ -18,6 +20,16 @@ config.read('config.txt')
 app.config['SQLALCHEMY_DATABASE_URI'] = config['main'].get('db_file')
 app.config['APP_REQUESTS_TIMEOUT'] = config['main'].getint('requests_timeout')
 app.config['IMG_FOLDER'] = Path(config['main'].get('img_folder')).resolve()
+
+# setup logging
+if(config['main'].getboolean('logging')):
+    file_handler = RotatingFileHandler("app.log", backupCount=100)
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s '
+        '[in %(pathname)s:%(lineno)d]'
+    ))
+    app.logger.addHandler(file_handler)
 
 
 # setup db
@@ -41,6 +53,7 @@ def setup_history_db(db):
                 'created': self.created,
             }
 
+    # DBO object to get access to db
     class HistoryDBO(object):
         def store_event(self, animal_type, processed_image):
             evt = Event(animal_type=animal_type,

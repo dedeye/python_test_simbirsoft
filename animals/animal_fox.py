@@ -16,8 +16,11 @@ def get_fox_raw_image():
 
 
 def save_event(uuid):
-    db = current_app.config["history.db"]
-    db.store_event("fox", uuid)
+    try:
+        db = current_app.config["history.db"]
+        db.store_event("fox", uuid)
+    except Exception as e:
+        current_app.logger.error('can not save event: {}'.format(e))
 
 
 @animal_fox.route('/animal/fox')
@@ -25,8 +28,9 @@ def fox():
     try:
         raw_image = get_fox_raw_image()
         processed_image = image_process(raw_image)
-    
-    except Exception:
+
+    except Exception as e:
+        current_app.logger.error('can not serve /animal/fox: {}'.format(e))
         abort(500)
 
     uuid = get_uuid()
