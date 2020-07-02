@@ -13,7 +13,7 @@
       <tr>
         <td>{{ event.animal_type }} </td>
         <td>{{ event.created}}</td>
-        <td><a href="{{ event.processed_image }}">{{ event.processed_image }}</a></td> 
+        <td><a href="history/static/{{ event.processed_image }}.png">{{ event.processed_image }}</a></td> 
       </tr>
       {% endfor %}
   </table>
