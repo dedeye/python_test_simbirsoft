@@ -10,7 +10,7 @@ animal_dog = Blueprint('animal_dog', __name__)
 def get_dog_raw_image():
     timeout = current_app.config["APP_REQUESTS_TIMEOUT"]
 
-    dog_url = "http://shibe1.online/api/shibes?count=1"
+    dog_url = "http://shibe.online/api/shibes?count=1"
     dog_image_url = requests.get(dog_url, timeout=timeout).json()[0]
     return requests.get(dog_image_url, timeout=timeout).content
 
@@ -21,6 +21,7 @@ def save_event(uuid):
         db.store_event("dog", uuid)
     except Exception as e:
         current_app.logger.error('can not save event: {}'.format(e))
+
 
 
 @animal_dog.route('/animal/dog')
