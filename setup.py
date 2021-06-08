@@ -9,5 +9,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=["Flask==1.1.2", "Flask-SQLAlchemy==2.4.3", "Pillow==7.1.2", "requests==2.24.0"],
+    install_requires=["Flask==1.1.2", "Flask-SQLAlchemy==2.4.3", "Pillow==8.2.0", "requests==2.24.0"],
 )
